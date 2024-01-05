@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="style.css">
+      </head>
+     <body>
+	
+	    <div id="header">
+		    <h1><img src="logo.jpeg" class="p2"align="center">WELCOME TO TODO LIST</h1>
+	    </div>
+		<div class="container">  
+		<p>
+	         <input type="text" id="task" placeholder="Enter Task" class="form_input"> 
+	
+	        <button onclick="addtask()" class="btn">Add Task</button>
+		</p>
+        <hr>
+		    <p>ADD YOUR TODO LIST</p>
+		    <p id="msg">Your todo List is Empty</p>
+		      <ul id="task_detail">	
+		      </ul>
+		 <hr>
+		    <p>PENDING YOUR TODO LIST</p>
+		        <ul id="task_completed">
+		        </ul>
+
+	
+	    </div>
+	       <script type="text/javascript">
+	        // Todo List: Array
+		       tasklist = Array();
+		       completedtasklist = Array();
+		    
+	           t = document.getElementById('task');
+	           ld = document.getElementById('task_detail');
+	           tc = document.getElementById('task_completed');
+              
+	           msg = document.getElementById('msg');
+
+	        function addtask(){
+
+		    if(t.value.length==0){
+			alert("Enter Task!")
+			return;
+	   	}
+		    tasklist.push(t.value);  //add task to array
+		    t.value=""; //input empty
+            displaytask();
+	   }
+
+	        function displaytask(){
+		    res = "";
+		
+		    if(tasklist.length>0){
+			msg.style.display="none";
+		 }
+		 else{
+			msg.style.display="block";
+		 }
+
+		    for(i=0;i<tasklist.length;i++){
+			res = res + "<li>" + tasklist[i] + " <button onclick='deletetask("+i+")' class='danger'>Delete</button>  <button onclick='completedtask("+i+")' class='success'>Pending</button></li>";
+		}
+		    ld.innerHTML = res;
+	     }
+
+	        function displaycompletedtask(){
+	     	res = "";
+		    if(completedtasklist.length>0){
+			msg.style.display="none";
+		}
+		else{
+			msg.style.display="block";
+		}
+
+		    for(i=0;i<completedtasklist.length;i++){
+			res = res + "<li>" + completedtasklist[i] + "   <button onclick='editcompletedtask("+i+")' class='success'>edit</button><button onclick='submitedcompletedtask("+i+")' class='danger'>Submited</button></li>";
+		}
+		       tc.innerHTML = res;
+	     }
+
+	        function deletetask(arg){ 
+		    if (confirm("Do you a really want to deleted?")){
+		    console.log("arg ", arg);
+		    tasklist.splice(arg, 1);
+		    displaytask();
+	     }
+
+          }
+	       
+	       function completedtask(arg){
+		
+		   var removedElement = tasklist.splice(arg, 1);
+		   completedtasklist.push(removedElement);
+		   displaytask();
+		   displaycompletedtask();
+		   console.log(completedtasklist);
+	     }
+              function editcompletedtask(arg){
+		
+		   var newElement = prompt("Enter new value for the element:");
+		   if(newElement !==null){
+		   	completedtasklist[arg] = newElement;
+		   	displaycompletedtask();
+		   }
+	     }
+
+               function submitedcompletedtask(arg){
+
+                 if (confirm ("Do you a really want to submited?")){
+		   console.log("arg ", arg);
+		   completedtasklist.splice(arg, 1);
+		   displaycompletedtask();
+	    }
+
+         }
+           
+
+	     </script>
+          </body>
+          </html>
